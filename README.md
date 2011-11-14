@@ -4,15 +4,15 @@ https://github.com/morimori/endeco
 
 ## DESCRIPTION
 
-Managing the configuration of the environment-dependent.
+Manages environment dependent configurations.
 
 Like "envdir", contained in djb's daemontools.
 see http://cr.yp.to/daemontools/envdir.html
 
 ## FEATURES
 
-* File base configuration
-* Configuration changes on running apps (if cache disabled)
+* File based configuration
+* Dynamic configuration on running apps (if cache disabled)
 * Rails integration
 
 ## SYNOPSIS
