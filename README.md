@@ -48,9 +48,9 @@ see http://cr.yp.to/daemontools/envdir.html
 
 #### result
 
-    $ bundle exec rails runner -e development 'Endeco.hoge'
+    $ bundle exec rails runner -e development 'puts Endeco.hoge'
     foo
-    $ bundle exec rails runner -e production 'Endeco.hoge'
+    $ bundle exec rails runner -e production 'puts Endeco.hoge'
     bar
 
 ## REQUIREMENTS:
