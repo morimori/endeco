@@ -46,7 +46,7 @@ describe Endeco do
     end
 
     it 'raise Errno::ENOENT through filename method with bang' do
-      expect{ Endeco.test_var! }.should raise_error(Errno::ENOENT)
+      expect{ Endeco.test_var! }.to raise_error(Errno::ENOENT)
     end
 
     it 'return nil through brace with filename key' do
@@ -54,7 +54,7 @@ describe Endeco do
     end
 
     it 'raise Errno::ENOENT through brace with filename key with bang' do
-      expect{ Endeco['test_var!'] }.should raise_error(Errno::ENOENT)
+      expect{ Endeco['test_var!'] }.to raise_error(Errno::ENOENT)
     end
   end
 
