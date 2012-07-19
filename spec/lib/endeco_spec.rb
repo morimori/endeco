@@ -106,4 +106,24 @@ describe Endeco do
       Endeco.test_var!(:force => true).should == 'fuga'
     end
   end
+
+  context 'chomp' do
+    before do
+      open File.join(Endeco::Config.path, Endeco::Config.env, 'test_var'), 'w' do |f|
+        f << "hoge\n"
+      end
+    end
+
+    after do
+      File.unlink File.join(Endeco::Config.path, Endeco::Config.env, 'test_var')
+    end
+
+    it 'return chomp value' do
+      Endeco.test_var(:chomp => true).should == 'hoge'
+    end
+
+    it 'return raw value' do
+      Endeco.test_var(:chomp => false).should == "hoge\n"
+    end
+  end
 end
