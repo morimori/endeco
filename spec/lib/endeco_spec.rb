@@ -46,7 +46,7 @@ describe Endeco do
     end
 
     it 'raise Errno::ENOENT through filename method with bang' do
-      expect{ Endeco.test_var! }.should raise_error(Errno::ENOENT)
+      expect{ Endeco.test_var! }.to raise_error(Errno::ENOENT)
     end
 
     it 'return nil through brace with filename key' do
@@ -54,7 +54,7 @@ describe Endeco do
     end
 
     it 'raise Errno::ENOENT through brace with filename key with bang' do
-      expect{ Endeco['test_var!'] }.should raise_error(Errno::ENOENT)
+      expect{ Endeco['test_var!'] }.to raise_error(Errno::ENOENT)
     end
   end
 
@@ -104,6 +104,26 @@ describe Endeco do
         f << 'fuga'
       end
       Endeco.test_var!(:force => true).should == 'fuga'
+    end
+  end
+
+  context 'chomp' do
+    before do
+      open File.join(Endeco::Config.path, Endeco::Config.env, 'test_var'), 'w' do |f|
+        f << "hoge\n"
+      end
+    end
+
+    after do
+      File.unlink File.join(Endeco::Config.path, Endeco::Config.env, 'test_var')
+    end
+
+    it 'return chomp value' do
+      Endeco.test_var(:chomp => true).should == 'hoge'
+    end
+
+    it 'return raw value' do
+      Endeco.test_var(:chomp => false).should == "hoge\n"
     end
   end
 end
