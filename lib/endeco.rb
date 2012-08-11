@@ -11,17 +11,22 @@ module Endeco
 
   def self.[](key, options = {})
     safe_key = key.sub(/!$/, '')
-    return Cache[safe_key] if Cache.enable and !options[:force] and Cache.key?(safe_key)
-    fullpath = expand_path safe_key
-    if File.exists? fullpath
-      Cache[safe_key] = File.read fullpath
+    value = if Cache.enable and !options[:force] and Cache.key?(safe_key)
+      Cache[safe_key]
     else
-      if key == safe_key
-        nil
+      fullpath = expand_path safe_key
+      if File.exists? fullpath
+        Cache[safe_key] = File.read fullpath
       else
-        raise Errno::ENOENT, "Errno::ENOENT: No such file or directory - #{fullpath}"
+        if key == safe_key
+          nil
+        else
+          raise Errno::ENOENT, "Errno::ENOENT: No such file or directory - #{fullpath}"
+        end
       end
     end
+    value.chomp! if value && !(options[:chomp] === false) && Config.default_chomp
+    value
   end
 
   private
