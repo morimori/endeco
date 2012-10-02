@@ -10,12 +10,12 @@ module Endeco
   end
 
   def self.[](key, options = {})
-    safe_key = key.sub(/!$/, '')
+    safe_key = key.sub(/[!\?]$/, '')
     value = if Cache.enable and !options[:force] and Cache.key?(safe_key)
       Cache[safe_key]
     else
       fullpath = expand_path safe_key
-      if File.exists? fullpath
+      if exists? safe_key
         Cache[safe_key] = File.read fullpath
       else
         if key == safe_key
@@ -34,6 +34,10 @@ module Endeco
     File.expand_path File.join([Config.path, Config.env, name].compact)
   end
 
+  def self.exists?(name)
+    File.exists? expand_path(name)
+  end
+
   def self.def_methods(name)
     module_eval %[
       def self.#{name}(options = {})
@@ -44,6 +48,12 @@ module Endeco
     module_eval %[
       def self.#{name}!(options = {})
         self[__method__.to_s, options]
+      end
+    ], __FILE__, __LINE__
+
+    module_eval %[
+      def self.#{name}?
+        exists? "#{name}"
       end
     ], __FILE__, __LINE__
   end
