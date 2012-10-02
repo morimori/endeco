@@ -113,4 +113,17 @@ describe Endeco do
       Endeco.test_var(:chomp => false).should eq "hoge\n"
     end
   end
+
+  describe '? method' do
+    subject { Endeco.test_var? }
+
+    context 'file exists' do
+      include_context 'file prepared'
+      it { should be_true }
+    end
+
+    context 'file not exists' do
+      it { should be_false }
+    end
+  end
 end
