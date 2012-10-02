@@ -4,7 +4,7 @@ require 'endeco/cache'
 
 module Endeco
   def self.method_missing(symbol, *args)
-    safe_name = symbol.to_s.sub /!$/, ''
+    safe_name = symbol.to_s.sub /[!\?]$/, ''
     def_methods safe_name
     __send__ symbol, *args
   end
