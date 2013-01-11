@@ -98,19 +98,43 @@ describe Endeco do
     end
   end
 
-  context 'enable default chomp' do
+  describe 'chomp option' do
     include_context 'file prepared'
 
-    before do
-      Endeco::Config.default_chomp = true
+    context 'enable default chomp' do
+      before do
+        Endeco::Config.default_chomp = true
+      end
+
+      context 'not use chomp option' do
+        it 'remove line feed' do
+          Endeco.test_var.should eq 'hoge'
+        end
+      end
+
+      context 'use chomp option' do
+        it 'disable chomp with option' do
+          Endeco.test_var(:chomp => false).should eq "hoge\n"
+        end
+      end
     end
 
-    it 'remove line feed' do
-      Endeco.test_var.should eq 'hoge'
-    end
+    context 'disable default chomp' do
+      before do
+        Endeco::Config.default_chomp = false
+      end
 
-    it 'disable chomp with option' do
-      Endeco.test_var(:chomp => false).should eq "hoge\n"
+      context 'not use chomp option' do
+        it 'disable chomp with option' do
+          Endeco.test_var.should eq "hoge\n"
+        end
+      end
+
+      context 'use chomp option' do
+        it 'remove line feed' do
+          Endeco.test_var(:chomp => true).should eq "hoge"
+        end
+      end
     end
   end
 
