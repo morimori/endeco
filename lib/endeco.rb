@@ -25,7 +25,7 @@ module Endeco
         end
       end
     end
-    value.chomp! if value && !(options[:chomp] === false) && Config.default_chomp
+    value.chomp! if value && (!options[:chomp].nil? ? options[:chomp] : Config.default_chomp)
     value
   end
 
